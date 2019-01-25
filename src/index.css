@@ -1,49 +1,144 @@
-@import url('https://fonts.googleapis.com/css?family=Titillium+Web');
+@import url("https://fonts.googleapis.com/css?family=Titillium+Web");
+
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 body {
-    margin: 0;
-    padding: 0;
-    color: #333;
-    font-family: 'Titillium Web', sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #333;
+  font-family: "Titillium Web", sans-serif;
 }
 h1 {
-    text-align: center;
+  text-align: center;
 }
 .container {
-    width: 1000px;
-    margin: 0 auto;
+  width: 1000px;
+  margin: 0 auto;
 }
 table {
-    text-align: center;
-    width: 100%;
-    border: 1px solid #cacaca;
-    border-collapse: collapse;
+  text-align: center;
+  width: 100%;
+  border: 1px solid #cacaca;
+  border-collapse: collapse;
 }
 thead {
-    background: #dedede;
+  background: #dedede;
 }
 table td,
 table th {
-    padding: 10px;
-    border: 1px solid #cacaca;
+  padding: 10px;
+  border: 1px solid #cacaca;
 }
 label {
-    display: block;
-    margin-bottom: 10px;
+  display: block;
+  margin-bottom: 10px;
 }
 a,
 a:hover,
 a:active,
 a:visited {
-    font-weight: bold;
-    text-decoration: none;
-    color: #195bc4;
+  font-weight: bold;
+  text-decoration: none;
+  color: #195bc4;
+}
+button {
+  background: #ff8800;
+  display: inline-block;
+  border-radius: 4px;
+  line-height: 38px;
+  color: #fff;
+  text-align: center;
+  border: none;
+  font-family: "Titillium Web", sans-serif;
+  text-transform: uppercase;
+  min-width: 120px;
+  box-shadow: 0 4px 2px -2px gray;
+}
+.text_field {
+  position: relative;
+  padding: 0;
+  margin: 5px;
+  border: none;
+  overflow: visible;
+}
+.text_field textarea {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px 10px 8px;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  border-bottom: 1px solid #ddd;
+  font-size: 120%;
+  outline: none;
+  cursor: text;
+}
+.text_field textarea::-webkit-textarea-placeholder {
+  transition: color 300ms ease;
+}
+.text_field textarea:not(:focus)::-webkit-textarea-placeholder {
+  color: transparent;
+}
+.text_field hr {
+  content: "";
+  display: block;
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 2px;
+  border: none;
+  background: #ff8800;
+  font-size: 1px;
+  will-change: transform, visibility;
+  transition: all 200ms ease-out;
+  -webkit-transform: scaleX(0);
+  transform: scaleX(0);
+  visibility: hidden;
+  z-index: 10;
+}
+.text_field textarea:focus~hr {
+  -webkit-transform: scaleX(1);
+  transform: scaleX(1);
+  visibility: visible;
+}
+.text_field label {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 120%;
+  color: #ff8800;
+  -webkit-transform-origin: 0 -150%;
+  transform-origin: 0 -150%;
+  transition: -webkit-transform 300ms ease;
+  transition: transform 300ms ease;
+  transition: transform 300ms ease, -webkit-transform 300ms ease;
+  pointer-events: none;
+}
+.text_field textarea:focus~label,
+.text_field textarea:valid~label {
+  -webkit-transform: scale(0.6);
+  transform: scale(0.6);
+}
+.text_field .template {
+  min-height: 150px;
+}
+.text_field .template::-webkit-scrollbar {
+  width: 4px;
+}
+.text_field .template::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+.text_field .template::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
 }
 
 @media screen and (max-width: 1200px) {
-    .container {
-        width: 90%;
-    }
+  .container {
+    width: 90%;
+  }
 }

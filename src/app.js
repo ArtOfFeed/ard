@@ -1,28 +1,25 @@
 const url = 'https://api.myjson.com/bins/azz4s';
-const templates = [];
-
-let promise = (url) => {
-    fetch(url)
-        .then(res => {
-            return res.json();
-        })
-        .then(data => {
-            renderTable(data)
-        })
-        .catch(err => {
-            console.error('Something goes wrong ', err)
-        });
-}
-
 const container = document.querySelector("#container");
+let templates = [];
 
-function renderTable(templates) {
-    const data = templates
-        .map(({ id, name, modified }) => ({
-            id,
-            name,
-            modified: new Date(modified).toISOString()
-        }));
+fetch(url)
+    .then(res => {
+        return res.json();
+    })
+    .then(data => {
+        templates = data;
+        render(document.location.pathname);
+    })
+    .catch(err => {
+        console.error('Something goes wrong ', err)
+    });
+
+function renderTable() {
+    const data = templates.map(({ id, name, modified }) => ({
+        id,
+        name,
+        modified: new Date(modified).toISOString()
+    }));
 
     container.innerHTML = tableTmpl(data);
 }
@@ -33,8 +30,8 @@ function tableTmpl(data) {
           <td><a href="/${id}">${id}</a></td>
           <td>${name}</td>
           <td>${modified}</td>
-        </tr>`)
-        .join('');
+        </tr>`
+    ).join("");
 
     return `<table id="templates">
       <thead>
@@ -59,13 +56,14 @@ function renderTemplate(tid) {
 
 function templateTmpl(data) {
     return `<form>
-    ${Object.keys(data).map((key) => {
+    ${Object.keys(data).map(key => {
         const val = data[key];
-        return `<p>
-        <label>${key}</label>
-        <textarea name="${key}">${val}</textarea>
-      </p>`
-    }).join('')}
+        return `<div class="text_field">
+            <textarea class="${key}" name="${key}" required>${val}</textarea>
+            <hr>
+            <label>${key}</label>
+        </div>`;
+    }).join("")}
     <button type="submit">Save</button>
     </form>`;
 }
@@ -86,30 +84,27 @@ function render(path) {
 
     const id = path.substring(1);
     const tid = parseInt(id, 10);
-
     if (!isNaN(tid)) {
         renderTemplate(tid);
         return;
     }
-    promise(url);
+    renderTable();
 }
-
-render("/");
 
 window.onpopstate = function () {
     render(document.location.pathname);
 };
 
-document.addEventListener('click', (e) => {
+document.addEventListener("click", e => {
     if (e.target.tagName === "A") {
         e.preventDefault();
 
-        const href = e.target.getAttribute('href');
+        const href = e.target.getAttribute("href");
         render(href);
     }
 });
 
-document.addEventListener('submit', (e) => {
+document.addEventListener("submit", e => {
     e.preventDefault();
 
     let data = Object.keys(e.target.elements).reduce((acc, i) => {
@@ -129,4 +124,4 @@ document.addEventListener('submit', (e) => {
 
         render("/");
     }
-})
+});
