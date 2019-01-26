@@ -1,3 +1,6 @@
+import table from './templates/table';
+import form from './templates/form'
+
 const url = 'https://api.myjson.com/bins/azz4s';
 const container = document.querySelector("#container");
 let templates = [];
@@ -18,55 +21,22 @@ function renderTable() {
     const data = templates.map(({ id, name, modified }) => ({
         id,
         name,
-        modified: new Date(modified).toISOString()
+        modified: new Date(modified).toLocaleDateString() + ' ' + new Date(modified).toLocaleTimeString()
     }));
 
-    container.innerHTML = tableTmpl(data);
-}
-
-function tableTmpl(data) {
-    const tbody = data.map(({ id, name, modified }) => `
-        <tr>
-          <td><a href="/${id}">${id}</a></td>
-          <td>${name}</td>
-          <td>${modified}</td>
-        </tr>`
-    ).join("");
-
-    return `<table id="templates">
-      <thead>
-      <tr class="line">
-        <th>ID</th>
-        <th>Name</th>
-        <th>Modified</th>
-      </tr>
-      </thead>
-      <tbody>${tbody}</tbody>
-    </table>`;
+    container.innerHTML = table(data);
 }
 
 function renderTemplate(tid) {
     const template = templates.find(({ id }) => id === tid);
     if (template) {
-        container.innerHTML = templateTmpl(template);
+        container.innerHTML = form(template);
     } else {
         container.innerHTML = `<p>Unknown template</p>`;
     }
 }
 
-function templateTmpl(data) {
-    return `<form>
-    ${Object.keys(data).map(key => {
-        const val = data[key];
-        return `<div class="text_field">
-            <textarea class="${key}" name="${key}" required>${val}</textarea>
-            <hr>
-            <label>${key}</label>
-        </div>`;
-    }).join("")}
-    <button type="submit">Save</button>
-    </form>`;
-}
+
 
 function updateTemplate(data) {
     let template = templates.find(({ id }) => id === data.id);
